@@ -259,10 +259,10 @@ namespace Tensorflow.Eager
                 var key = attrs[i].ToString();
                 var value = attrs[i + 1];
 
-                byte is_list = 0; 
-                var type = c_api.TFE_OpGetAttrType(op, key, ref is_list, status.Handle);
+                bool is_list;
+                var type = c_api.TFE_OpGetAttrType(op, key, out is_list, status.Handle);
                 if (!status.ok()) return;
-                if (is_list != 0)
+                if (is_list)
                     SetOpAttrList(tf.context, op, key, value as object[], type, null, status);
                 else
                     SetOpAttrScalar(tf.context, op, key, value, type, null, status);
@@ -288,13 +288,13 @@ namespace Tensorflow.Eager
             Dictionary<string, long> attr_list_sizes,
             Status status)
         {
-            byte is_list = 0;
-            var type = c_api.TFE_OpGetAttrType(op, attr_name, ref is_list, status.Handle);
+            bool is_list;
+            var type = c_api.TFE_OpGetAttrType(op, attr_name, out is_list, status.Handle);
             if (status.Code != TF_Code.TF_OK) return;
 
             if(attr_value == null)
             {
-                if (is_list != 0)
+                if (is_list)
 #pragma warning disable CS0642 // Possible mistaken empty statement
                     ;
 #pragma warning restore CS0642 // Possible mistaken empty statement
@@ -307,7 +307,7 @@ namespace Tensorflow.Eager
             }
             else
             {
-                if (is_list != 0)
+                if (is_list)
                     SetOpAttrList(ctx, op, attr_name, attr_value, type, attr_list_sizes, status);
                 else
                     SetOpAttrScalar(ctx, op, attr_name, attr_value, type, attr_list_sizes, status);

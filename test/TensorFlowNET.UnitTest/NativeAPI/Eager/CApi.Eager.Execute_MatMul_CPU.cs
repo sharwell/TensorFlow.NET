@@ -24,7 +24,7 @@ namespace TensorFlowNET.UnitTest.NativeAPI
             static SafeContextHandle NewContext(bool async, SafeStatusHandle status)
             {
                 using var opts = c_api.TFE_NewContextOptions();
-                c_api.TFE_ContextOptionsSetAsync(opts, Convert.ToByte(async));
+                c_api.TFE_ContextOptionsSetAsync(opts, async);
                 return c_api.TFE_NewContext(opts, status);
             }
 

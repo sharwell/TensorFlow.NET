@@ -32,10 +32,10 @@ namespace Tensorflow
         /// <param name="status">TF_Status*</param>
         /// <returns></returns>
         [DllImport(TensorFlowLibName)]
-        public static extern TF_AttrType TFE_OpGetAttrType(SafeOpHandle op, string attr_name, ref byte is_list, SafeStatusHandle status);
+        public static extern TF_AttrType TFE_OpGetAttrType(SafeOpHandle op, string attr_name, [MarshalAs(UnmanagedType.I1)] out bool is_list, SafeStatusHandle status);
 
         [DllImport(TensorFlowLibName)]
-        public static extern TF_AttrType TFE_OpNameGetAttrType(SafeContextHandle ctx, string op_or_function_name, string attr_name, ref byte is_list, SafeStatusHandle status);
+        public static extern TF_AttrType TFE_OpNameGetAttrType(SafeContextHandle ctx, string op_or_function_name, string attr_name, [MarshalAs(UnmanagedType.I1)] out bool is_list, SafeStatusHandle status);
 
         /// <summary>
         /// Returns the length (number of tensors) of the input argument `input_name`
@@ -248,7 +248,7 @@ namespace Tensorflow
         /// <param name="opts">TFE_ContextOptions*</param>
         /// <param name="enable">unsigned char</param>
         [DllImport(TensorFlowLibName)]
-        public static extern void TFE_ContextOptionsSetAsync(SafeContextOptionsHandle opts, byte enable);
+        public static extern void TFE_ContextOptionsSetAsync(SafeContextOptionsHandle opts, [MarshalAs(UnmanagedType.U1)] bool enable);
 
         /// <summary>
         /// 

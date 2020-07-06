@@ -52,8 +52,8 @@ namespace Tensorflow.Eager
         public override object get_attr(string attr_name)
         {
             object value = null;
-            byte isList = 0;
-            var attrType = c_api.TFE_OpNameGetAttrType(tf.context.Handle, Name, attr_name, ref isList, tf.status.Handle);
+            bool isList;
+            var attrType = c_api.TFE_OpNameGetAttrType(tf.context.Handle, Name, attr_name, out isList, tf.status.Handle);
             switch (attrType)
             {
                 case TF_AttrType.TF_ATTR_BOOL:
